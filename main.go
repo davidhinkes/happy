@@ -2,11 +2,17 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 )
 
+var (
+	searchSize = flag.Int("i", 100, "find happy numbers from [0,i)")
+)
+
 func main() {
-	for i := 0; i < 100; i++ {
+	flag.Parse()
+	for i := 0; i < *searchSize; i++ {
 		h, l := isHappy(i)
 		fmt.Printf("isHappy(%v): %v, %v\n", i, h, l)
 	}
