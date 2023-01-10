@@ -23,7 +23,7 @@ func main() {
 
 // next is recursive means for gennerating the next potential happy number
 // given x.
-// For a given x, we expect log(x) calls to nextHappy, so recursive is OK.
+// For a given x, we expect log_10(x) calls to nextHappy, so recursive is OK.
 func next(x int) int {
 	if x == 0 {
 		return x
@@ -44,10 +44,9 @@ func isHappy(x int) (bool, []int) {
 
 func isHappyR(xs []int, m map[int]struct{}) (bool, []int) {
 	x := xs[len(xs)-1] // assume xs not empty
-	nextX := next(x)
 	_, dup := m[x]
 	m[x] = struct{}{}
-	xs = append(xs, nextX)
+	xs = append(xs, next(x))
 	if dup {
 		return false, xs
 	}
