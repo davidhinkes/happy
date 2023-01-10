@@ -14,6 +14,9 @@ func main() {
 	flag.Parse()
 	for i := 0; i < *searchSize; i++ {
 		h, l := isHappy(i)
+		if !h {
+			continue
+		}
 		fmt.Printf("isHappy(%v): %v, %v\n", i, h, l)
 	}
 }
@@ -35,15 +38,21 @@ func next(x int) int {
 
 // isHappy determines if x is a happy number (bool), and also returns the sequence of next-happies.
 func isHappy(x int) (bool, []int) {
-	var happies []int
 	m := map[int]struct{}{}
-	for {
-		happies = append(happies, x)
-		if _, ok := m[x]; ok || x == 1 {
-			break
-		}
-		m[x] = struct{}{}
-		x = next(x)
+	return isHappyR([]int{x}, m)
+}
+
+func isHappyR(xs []int, m map[int]struct{}) (bool, []int) {
+	x := xs[len(xs)-1] // assume xs not empty
+	nextX := next(x)
+	_, dup := m[x]
+	m[x] = struct{}{}
+	xs = append(xs, nextX)
+	if dup {
+		return false, xs
 	}
-	return x == 1, happies
+	if x == 1 {
+		return true, xs
+	}
+	return isHappyR(xs, m)
 }
