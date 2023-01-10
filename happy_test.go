@@ -10,6 +10,8 @@ func TestKnownHappies(t *testing.T) {
 		isHappy bool
 	}{
 		{44, true},
+		{1, true},
+		{45, false},
 		{0, false},
 	}
 	for _, tc := range testCases {
